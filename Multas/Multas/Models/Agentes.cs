@@ -14,5 +14,7 @@ namespace Multas.Models
         public string Esquadra { get; set; }
 
         public string Fotografia { get; set; }
+
+        public ICollection<Multas> ListaDasMultas { get; set; }
     }
 }

@@ -22,5 +22,7 @@ namespace Multas.Models
         public string MoradaDono { get; set; }
 
         public string CodPostalDono { get; set; }
+
+        public ICollection<Multas> ListaDasMultas { get; set; }
     }
 }
