@@ -17,7 +17,9 @@ namespace Multas.Controllers
         // GET: Agentes
         public ActionResult Index()
         {
-            return View(db.Agentes.ToList());
+            rvar listaAgentes = db.Agentes.OrderBy(a => a.Nome).ToList();
+
+            return View(listaAgentes);
         }
 
         // GET: Agentes/Details/5
