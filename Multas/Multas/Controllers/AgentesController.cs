@@ -17,22 +17,28 @@ namespace Multas.Controllers
         // GET: Agentes
         public ActionResult Index()
         {
-            rvar listaAgentes = db.Agentes.OrderBy(a => a.Nome).ToList();
+            var listaAgentes = db.Agentes.OrderBy(a => a.Nome).ToList();
 
             return View(listaAgentes);
         }
 
         // GET: Agentes/Details/5
+        /// <summary>
+        /// Mostra os dados de um agentes.
+        /// </summary>
+        /// <param name="id">Identifica o agente</param>
+        /// <returns>Devolev a view com os dados</returns>
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
             Agentes agentes = db.Agentes.Find(id);
             if (agentes == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index");
             }
             return View(agentes);
         }
@@ -65,14 +71,15 @@ namespace Multas.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
-            Agentes agentes = db.Agentes.Find(id);
-            if (agentes == null)
+            Agentes agente = db.Agentes.Find(id);
+            if (agente == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index");
             }
-            return View(agentes);
+            return View(agente);
         }
 
         // POST: Agentes/Edit/5
@@ -96,25 +103,46 @@ namespace Multas.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
+
             Agentes agentes = db.Agentes.Find(id);
+
             if (agentes == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index");
             }
+
+
+
             return View(agentes);
         }
 
         // POST: Agentes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
+            if(id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             Agentes agentes = db.Agentes.Find(id);
-            db.Agentes.Remove(agentes);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (agentes == null)
+                return RedirectToAction("Index");
+            try
+            {
+                db.Agentes.Remove(agentes);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Não é possível remover o agente. Provavelmente, ele tem multas associadas a ele...");
+                return View(agentes);
+            }
+            
         }
 
         protected override void Dispose(bool disposing)
