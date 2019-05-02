@@ -113,7 +113,7 @@ namespace Multas.Controllers
                 return RedirectToAction("Index");
             }
 
-
+            Session["Agente"] = agentes.ID;
 
             return View(agentes);
         }
@@ -128,9 +128,16 @@ namespace Multas.Controllers
                 return RedirectToAction("Index");
             }
 
+            if(id != (int) Session["Agente"])
+            {
+                return RedirectToAction("Index");
+            }
+
             Agentes agentes = db.Agentes.Find(id);
+
             if (agentes == null)
                 return RedirectToAction("Index");
+
             try
             {
                 db.Agentes.Remove(agentes);
