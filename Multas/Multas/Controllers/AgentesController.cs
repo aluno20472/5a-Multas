@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -54,12 +55,43 @@ namespace Multas.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nome,Esquadra,Fotografia")] Agentes agentes)
+        public ActionResult Create([Bind(Include = "ID,Nome,Esquadra,Fotografia")] Agentes agentes, HttpPostedFileBase fotografia)
         {
+            string caminho = "";
+
+            if (fotografia == null)
+            {
+                agentes.Fotografia = "BeatrizPinto.jpg";
+            }
+            else
+            {
+                if(fotografia.ContentType == "image/jpeg" || fotografia.ContentType == "image/png")
+                {
+                    string extensao = Path.GetExtension(fotografia.FileName).ToLower();
+                    string nome;
+                    Guid g = new Guid();
+
+                    nome = g.ToString() + extensao;
+                    caminho = Path.Combine(Server.MapPath("~/imagens"), nome);
+                    agentes.Fotografia = nome;
+                }
+            }
+
+
             if (ModelState.IsValid)
             {
-                db.Agentes.Add(agentes);
-                db.SaveChanges();
+
+                try
+                {
+                    db.Agentes.Add(agentes);
+                    db.SaveChanges();
+                    fotografia.SaveAs(caminho);
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "");
+                }
+                
                 return RedirectToAction("Index");
             }
 
