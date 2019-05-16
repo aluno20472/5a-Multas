@@ -8,6 +8,10 @@ namespace Multas.Models
 {
     public class Agentes
     {
+        public Agentes()
+        {
+            ListaDasMultas = new HashSet<Multas>();
+        }
         public int ID { get; set; }
 
         [RegularExpression("([A-Za-zç]+( |-|')?)+", ErrorMessage = "Só pode escrever letras no nome. Deve começar por uma maiúscula.")]
@@ -18,6 +22,6 @@ namespace Multas.Models
 
         public string Fotografia { get; set; }
 
-        public ICollection<Multas> ListaDasMultas { get; set; }
+        public virtual ICollection<Multas> ListaDasMultas { get; set; }
     }
 }

@@ -7,6 +7,10 @@ namespace Multas.Models
 {
     public class Viaturas
     {
+        public Viaturas()
+        {
+            ListaDasMultas = new HashSet<Multas>();
+        }
         public int ID { get; set; }
 
         public string Matricula { get; set; }
@@ -23,6 +27,6 @@ namespace Multas.Models
 
         public string CodPostalDono { get; set; }
 
-        public ICollection<Multas> ListaDasMultas { get; set; }
+        public virtual ICollection<Multas> ListaDasMultas { get; set; }
     }
 }

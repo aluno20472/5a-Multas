@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Agente <i>@Model.Nome</i></h2>
 
 <div>
     <h4>Agentes</h4>
@@ -35,6 +35,40 @@
         </dd>
 
     </dl>
+
+
+    <hr />
+
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ListaDasMultas.FirstOrDefault().ID)</th>
+            <th>@Html.DisplayNameFor(model => model.ListaDasMultas.FirstOrDefault().DataDaMulta)</th>
+            <th>@Html.DisplayNameFor(model => model.ListaDasMultas.FirstOrDefault().ValorMulta)</th>
+        </tr>
+
+        @foreach (var multa in Model.ListaDasMultas)
+        {
+        <tr>
+            <td>
+                @multa.ID
+            </td>
+            <td>
+                @multa.DataDaMulta
+            </td>
+            <td>
+                @multa.LocalDaMulta
+            </td>
+            <td>
+                <a href="/condutores/details/@multa.Condutor.ID">@multa.Condutor.Nome</a>
+            </td>
+            <td>
+                @multa.Viatura.Matricula
+            </td>
+        </tr>
+        }
+    </table>
+
+    <hr />
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
