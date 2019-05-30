@@ -11,11 +11,13 @@ using Multas.Models;
 
 namespace Multas.Controllers
 {
+    [Authorize]
     public class AgentesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Agentes
+        [Authorize(Roles ="RecursosHumanos,Agente")]
         public ActionResult Index()
         {
             var listaAgentes = db.Agentes.OrderBy(a => a.Nome).ToList();
