@@ -1,0 +1,63 @@
+﻿@model Multas.Models.ListaViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+@if (!User.IsInRole("Cliente"))
+{
+    <div>
+        <h4>Agentes</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Agente.ID)
+            </dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Agente.ID)
+                <br />
+                <input type="text" value="@Model.Agente.ID" />
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Agente.Nome)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Agente.Nome)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Agente.Esquadra)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Agente.Esquadra)
+        </dl>
+    </div>
+}
+
+<div>
+    <h4>Condutores</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Condutor.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Condutor.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Condutor.DataNascimento)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Condutor.DataNascimento)
+    </dl>
+</div>
+
+@{ string fich = Model.Agente.Nome+".js";}
+<script src="@fich">
+</script>
