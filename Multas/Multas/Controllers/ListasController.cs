@@ -10,7 +10,7 @@ namespace Multas.Controllers
     public class ListasController : Controller
     {
 
-        private MultasDB db = new MultasDB();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Listas
         // [Authorize]
